@@ -1,0 +1,24 @@
+{
+  "name": "dblencowe/string-to-seconds",
+  "description": "Convert a string like 1W 2D to seconds",
+  "type": "library",
+  "require": {
+    "php": "7.1"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dave Blencowe",
+      "email": "dblencowe@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dblencowe\\StringToSeconds\\": "src/Dblencowe/StringToSeconds/"
+    }
+  },
+  "require-dev": {
+    "fzaninotto/faker": "~1.4",
+    "phpunit/phpunit": "~5.0"
+  }
+}
