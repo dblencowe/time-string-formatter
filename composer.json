@@ -1,7 +1,7 @@
 {
   "name": "dblencowe/string-to-seconds",
   "description": "Convert a string like 1W 2D to seconds",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "library",
   "require": {
     "php": "7.1"
