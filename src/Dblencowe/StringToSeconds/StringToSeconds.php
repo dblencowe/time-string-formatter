@@ -3,6 +3,7 @@
 namespace Dblencowe\StringToSeconds;
 
 use Dblencowe\StringToSeconds\Exception\DateStringException;
+use DateTime;
 
 /**
  * Convert date strings like 1W 2D and 6H to seconds
@@ -40,7 +41,7 @@ class StringToSeconds
      * @param int|null $numberOfWorkingDays Number of days per week (used when calculating W string)
      * @throws DateStringException
      */
-    public function __construct(string $dateString, int $numberOfWorkingDays = null)
+    public function __construct(string $dateString = null, int $numberOfWorkingDays = null)
     {
         // Set the number of working days if one provided
         if ($numberOfWorkingDays !== null) {
@@ -49,12 +50,9 @@ class StringToSeconds
 
         // Sanitize the string
         $dateString = str_replace(' ', '', strtoupper($dateString));
+        $this->calculateString($dateString);
 
-        if (!empty($dateString)) {
-            $this->calculateString($dateString);
-        } else {
-            throw new DateStringException('No date string provided');
-        }
+
     }
 
     /**
@@ -67,6 +65,15 @@ class StringToSeconds
      */
     private function calculateString($string): void
     {
+        if ($string === null) {
+            $this->seconds = null;
+            return;
+        }
+
+        if (empty($dateString)) {
+            throw new DateStringException('No date string provided');
+        }
+
         $currentUnitCount = 0;
         foreach (str_split($string) as $character) {
             if (!is_numeric($character)) {
