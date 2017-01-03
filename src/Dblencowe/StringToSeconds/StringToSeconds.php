@@ -48,11 +48,7 @@ class StringToSeconds
             $this->workingDays = $numberOfWorkingDays;
         }
 
-        // Sanitize the string
-        $dateString = str_replace(' ', '', strtoupper($dateString));
         $this->calculateString($dateString);
-
-
     }
 
     /**
@@ -65,14 +61,13 @@ class StringToSeconds
      */
     private function calculateString($string): void
     {
-        if ($string === null) {
+        if (empty($string)) {
             $this->seconds = null;
             return;
         }
 
-        if (empty($dateString)) {
-            throw new DateStringException('No date string provided');
-        }
+        // Sanitize the string
+        $string = str_replace(' ', '', strtoupper($string));
 
         $currentUnitCount = 0;
         foreach (str_split($string) as $character) {
@@ -115,7 +110,7 @@ class StringToSeconds
      *
      * @return int Number of seconds in the date string provided
      */
-    public function getSeconds(): int
+    public function getSeconds(): ?int
     {
         return $this->seconds;
     }
