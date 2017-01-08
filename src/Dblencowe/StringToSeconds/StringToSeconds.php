@@ -3,7 +3,6 @@
 namespace Dblencowe\StringToSeconds;
 
 use Dblencowe\StringToSeconds\Exception\DateStringException;
-use DateTime;
 
 /**
  * Convert date strings like 1W 2D and 6H to seconds
@@ -16,9 +15,9 @@ class StringToSeconds
     /**
      * Define basics values
      */
-    const   SECONDS_IN_DAY          = 86400,
-            SECONDS_IN_HOUR         = 3600,
-            SECONDS_IN_MINUTE       = 60;
+    const   SECONDS_IN_DAY = 86400,
+        SECONDS_IN_HOUR = 3600,
+        SECONDS_IN_MINUTE = 60;
 
     /**
      * Amount of days to be used when calculating seconds in a week
@@ -63,6 +62,7 @@ class StringToSeconds
     {
         if (empty($string)) {
             $this->seconds = null;
+
             return;
         }
 
@@ -100,7 +100,7 @@ class StringToSeconds
             }
 
             if (is_numeric($character)) {
-                $currentUnitCount += (int) $character;
+                $currentUnitCount += (int)$character;
             }
         }
     }
@@ -113,5 +113,42 @@ class StringToSeconds
     public function getSeconds(): ?int
     {
         return $this->seconds;
+    }
+
+    /**
+     * Output a formatted string
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        if ($this->seconds <= 0) {
+            return '';
+        }
+
+        $string = '';
+        $seconds = $this->seconds;
+
+        // Calculate days
+        $days = (int)($seconds / self::SECONDS_IN_DAY);
+        $seconds %= self::SECONDS_IN_DAY;
+        if ($days > 0) {
+            $string .= $days . 'D ';
+        }
+
+        // Calculate hours
+        $hours = (int)($seconds / self::SECONDS_IN_HOUR);
+        $seconds %= self::SECONDS_IN_HOUR;
+        if ($hours > 0) {
+            $string .= $hours . 'H ';
+        }
+
+        $minutes = (int)($seconds / self::SECONDS_IN_MINUTE);
+        $seconds %= self::SECONDS_IN_MINUTE;
+        if ($minutes > 0) {
+            $string .= $minutes . 'M ';
+        }
+
+        return trim($string);
     }
 }
