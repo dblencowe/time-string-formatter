@@ -3,6 +3,7 @@
 namespace Dblencowe\StringToSeconds;
 
 use Dblencowe\StringToSeconds\Exception\DateStringException;
+use Dblencowe\TimeStringFormatter\TimeStringFormatter;
 
 /**
  * Convert date strings like 1W 2D and 6H to seconds
@@ -10,14 +11,8 @@ use Dblencowe\StringToSeconds\Exception\DateStringException;
  * @author Dave Blencowe <dblencowe@gmail.com>
  * @package Dblencowe\StringToSeconds
  */
-class StringToSeconds
+class StringToSeconds extends TimeStringFormatter
 {
-    /**
-     * Define basics values
-     */
-    const   SECONDS_IN_DAY = 86400,
-        SECONDS_IN_HOUR = 3600,
-        SECONDS_IN_MINUTE = 60;
 
     /**
      * Amount of days to be used when calculating seconds in a week
@@ -25,13 +20,6 @@ class StringToSeconds
      * @var integer
      */
     private $workingDays = 7;
-
-    /**
-     * Count of the amount of seconds in the string
-     *
-     * @var integer
-     */
-    private $seconds = 0;
 
     /**
      * Initialize the object with your string and an optional number of days per week.
@@ -123,42 +111,5 @@ class StringToSeconds
     public function setSeconds(int $seconds)
     {
         $this->seconds = $seconds;
-    }
-
-    /**
-     * Output a formatted string
-     *
-     * @return string
-     */
-    public function __toString(): string
-    {
-        if ($this->seconds <= 0) {
-            return '';
-        }
-
-        $string = '';
-        $seconds = $this->seconds;
-
-        // Calculate days
-        $days = (int)($seconds / self::SECONDS_IN_DAY);
-        $seconds %= self::SECONDS_IN_DAY;
-        if ($days > 0) {
-            $string .= $days . 'D ';
-        }
-
-        // Calculate hours
-        $hours = (int)($seconds / self::SECONDS_IN_HOUR);
-        $seconds %= self::SECONDS_IN_HOUR;
-        if ($hours > 0) {
-            $string .= $hours . 'H ';
-        }
-
-        $minutes = (int)($seconds / self::SECONDS_IN_MINUTE);
-        $seconds %= self::SECONDS_IN_MINUTE;
-        if ($minutes > 0) {
-            $string .= $minutes . 'M ';
-        }
-
-        return trim($string);
     }
 }
