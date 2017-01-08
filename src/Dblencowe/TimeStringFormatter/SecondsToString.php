@@ -1,13 +1,11 @@
 <?php
 
-namespace Dblencowe\StringToSeconds;
-
-use Dblencowe\TimeStringFormatter\TimeStringFormatter;
+namespace Dblencowe\TimeStringFormatter;
 
 /**
  * Convert a number of seconds to a time string
  *
- * @package Dblencowe\StringToSeconds
+ * @package Dblencowe\TimeStringFormatter
  */
 class SecondsToString extends TimeStringFormatter
 {

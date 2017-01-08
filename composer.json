@@ -1,7 +1,7 @@
 {
   "name": "dblencowe/time-string-formatter",
   "description": "Convert a string like 1W 2D to seconds",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "library",
   "require": {
     "php": "7.1"
@@ -15,7 +15,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Dblencowe\\StringToSeconds\\": "src/Dblencowe/StringToSeconds/"
+      "Dblencowe\\TimeStringFormatter\\": "src/Dblencowe/TimeStringFormatter/"
     }
   },
   "require-dev": {

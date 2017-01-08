@@ -1,9 +1,8 @@
 <?php
 
-namespace Dblencowe\StringToSeconds;
+namespace Dblencowe\TimeStringFormatter;
 
-use Dblencowe\StringToSeconds\Exception\DateStringException;
-use Dblencowe\TimeStringFormatter\TimeStringFormatter;
+use Dblencowe\TimeStringFormatter\Exception\DateStringException;
 
 /**
  * Convert date strings like 1W 2D and 6H to seconds
@@ -44,7 +43,7 @@ class StringToSeconds extends TimeStringFormatter
      * @param  string $string String to convert
      *
      * @return void
-     * @throws \Dblencowe\StringToSeconds\Exception\DateStringException
+     * @throws \Dblencowe\TimeStringFormatter\Exception\DateStringException
      */
     private function calculateString($string): void
     {
