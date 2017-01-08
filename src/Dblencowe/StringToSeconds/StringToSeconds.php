@@ -116,6 +116,16 @@ class StringToSeconds
     }
 
     /**
+     * Set the seconds for the object
+     *
+     * @param int $seconds number of seconds
+     */
+    public function setSeconds(int $seconds)
+    {
+        $this->seconds = $seconds;
+    }
+
+    /**
      * Output a formatted string
      *
      * @return string
