@@ -2,6 +2,11 @@
 
 namespace Dblencowe\TimeStringFormatter;
 
+/**
+ * Define a base class with some default values in
+ *
+ * @package Dblencowe\TimeStringFormatter
+ */
 class TimeStringFormatter
 {
     /**

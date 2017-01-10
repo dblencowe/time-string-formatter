@@ -21,75 +21,53 @@ class StringToSeconds extends TimeStringFormatter
     private $workingDays = 7;
 
     /**
-     * Initialize the object with your string and an optional number of days per week.
+     * Convert string to seconds and return number of seconds
      *
-     * @param string $dateString String to convert to seconds (Ex: 1w 2d)
-     * @param int|null $numberOfWorkingDays Number of days per week (used when calculating W string)
+     * @param string|null $dateString
+     * @param int|null $numberOfWorkingDays
+     * @return int
      * @throws DateStringException
      */
-    public function __construct(string $dateString = null, int $numberOfWorkingDays = null)
+    public function __invoke(string $dateString = null, int $numberOfWorkingDays = null): int
     {
         // Set the number of working days if one provided
         if ($numberOfWorkingDays !== null) {
             $this->workingDays = $numberOfWorkingDays;
         }
 
-        $this->calculateString($dateString);
-    }
-
-    /**
-     * Turn a string like 4W 2D in to seconds
-     *
-     * @param  string $string String to convert
-     *
-     * @return void
-     * @throws \Dblencowe\TimeStringFormatter\Exception\DateStringException
-     */
-    private function calculateString($string): void
-    {
-        if (empty($string)) {
-            $this->seconds = null;
-
-            return;
+        if ($dateString === null) {
+            return $this->seconds = 0;
         }
 
         // Sanitize the string
-        $string = str_replace(' ', '', strtoupper($string));
+        $string = str_replace(' ', '', strtoupper($dateString));
+        preg_match_all('/(\d+(\.\d+)?)([DMHW])/', $string, $output);
+        $result = $output[0];
 
-        $currentUnitCount = 0;
-        foreach (str_split($string) as $character) {
-            if (!is_numeric($character)) {
-                // End of unit
-                switch ($character) {
-                    case 'W':
-                        $this->seconds += $currentUnitCount * (self::SECONDS_IN_DAY * $this->workingDays);
-                        $currentUnitCount = 0;
-                        break;
-                    case 'D':
-                        $this->seconds += $currentUnitCount * self::SECONDS_IN_DAY;
-                        $currentUnitCount = 0;
-                        break;
-                    case 'H':
-                        $this->seconds += $currentUnitCount * self::SECONDS_IN_HOUR;
-                        $currentUnitCount = 0;
-                        break;
-                    case 'M':
-                        $this->seconds += $currentUnitCount * self::SECONDS_IN_MINUTE;
-                        $currentUnitCount = 0;
-                        break;
-                    case 'S':
-                        $this->seconds += $currentUnitCount;
-                        $currentUnitCount = 0;
-                        break;
-                    default:
-                        throw new DateStringException('Invalid unit specified: ' . $character);
-                }
-            }
+        foreach ($result as $parts) {
+            $unit = substr($parts, -1);
+            $multiplier = substr($parts, 0, -1);
 
-            if (is_numeric($character)) {
-                $currentUnitCount += (int)$character;
+            switch ($unit) {
+                case 'W':
+                    $this->seconds += $multiplier * (self::SECONDS_IN_DAY * $this->workingDays);
+                    break;
+                case 'D':
+                    $this->seconds += $multiplier * self::SECONDS_IN_DAY;
+                    break;
+                case 'H':
+                    $this->seconds += $multiplier * self::SECONDS_IN_HOUR;
+                    break;
+                case 'M':
+                    $this->seconds += $multiplier * self::SECONDS_IN_MINUTE;
+                    break;
+                case 'S':
+                    $this->seconds += $multiplier;
+                    break;
             }
         }
+
+        return $this->seconds;
     }
 
     /**

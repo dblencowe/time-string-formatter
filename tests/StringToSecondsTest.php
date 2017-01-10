@@ -1,11 +1,15 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Dblencowe\StringToSeconds\StringToSeconds;
-use Dblencowe\StringToSeconds\Exception\DateStringException;
+use Dblencowe\TimeStringFormatter\StringToSeconds;
 
 class StringToSecondsTest extends TestCase
 {
+    public function testCanInitObject()
+    {
+        $this->assertInstanceOf(StringToSeconds::class, new StringToSeconds());
+    }
+
     public function testExpectedResult()
     {
         $dates = [
@@ -14,14 +18,13 @@ class StringToSecondsTest extends TestCase
         ];
 
         foreach ($dates as $time => $expectedResult) {
-            $testItem = new StringToSeconds($time);
-            $this->assertEquals($expectedResult, $testItem->getSeconds());
+            $this->assertEquals($expectedResult, (new StringToSeconds())($time));
         }
     }
 
-    public function testProperExceptionThrown()
+    public function testNoStringMeansZeroSeconds()
     {
-        $this->expectException(DateStringException::class);
-        $testItem = new StringToSeconds('1Y 12D 1600H');
+        $initSeconds = (new StringToSeconds())();
+        $this->assertEquals(0, $initSeconds);
     }
 }
